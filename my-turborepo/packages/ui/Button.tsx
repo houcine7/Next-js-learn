@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-export const Button = () => {
+export const Button = ({ btnText }: { btnText: string }) => {
   return (
     <button
       style={{
@@ -14,7 +14,7 @@ export const Button = () => {
       }}
       onClick={() => alert("Hello world this is the basic app with monorepo")}
     >
-      Click me
+      {btnText}
     </button>
   );
 };
