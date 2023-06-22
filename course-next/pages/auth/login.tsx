@@ -1,7 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 const Login = () => {
+  const [formFields, setFormFields] = useState({
+    email: "",
+    password: "",
+  });
+
   return (
     <div className=" max-w-xl items-center space-x-2 mx-auto flex flex-col justify-center h-full">
       <form className="w-full">

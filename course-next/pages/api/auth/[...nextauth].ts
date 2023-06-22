@@ -4,10 +4,15 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDb } from "../addMeetup";
 
 export const authOptions: NextAuthOptions = {
-  // Configure one or more authentication providers
+  // page:
+  pages: {
+    signIn: "/auth/login",
+  },
+  // session def
   session: {
     strategy: "jwt",
   },
+  // Configure one or more authentication providers
   providers: [
     GithubProvider({
       clientId: "clientID",
