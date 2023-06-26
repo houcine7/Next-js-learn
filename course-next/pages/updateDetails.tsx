@@ -56,25 +56,19 @@ function CardForm() {
     }
 
     const cardElement = elements.getElement(CardElement);
-    console.log(cardElement);
+    // console.log(cardElement);
     // create payment method
-    const payload = await stripe.createPaymentMethod({
-      type: "card",
-      card: cardElement!,
-      billing_details: {
-        name: "John Doe",
-        email: "hello-world@gmail.com",
-      },
-    });
+    // const payload = await stripe.createPaymentMethod({
+    //   type: "card",
+    //   card: cardElement!,
+    //   billing_details: {
+    //     name: "John Doe",
+    //     email: "hello-world@gmail.com",
+    //   },
+    // });
 
     //handel product subscription
-    console.log("[PaymentMethod]", payload);
-
-    // create customer for subscription
-
-    // create subscription for customer
-
-    // Rest of your code for handling payment method
+    // console.log("[PaymentMethod]", payload);
   };
 
   return (
