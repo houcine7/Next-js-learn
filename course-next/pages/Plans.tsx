@@ -6,9 +6,15 @@ const Plans = () => {
   const handleClick = async () => {
     //make api request to create customer
 
-    const customerId = await axios.post("/api/stripe/ustomers", {
+    const response = await axios.post("/api/stripe/customers", {
       email: "hello@example.com",
     });
+
+    const subscription = await axios.post("/api/stripe/subscriptions", {
+      customerId: response.data.id,
+    });
+
+    console.log(subscription);
 
     //redirect to checkout page
   };
