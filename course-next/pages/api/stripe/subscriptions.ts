@@ -14,6 +14,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       customer: customerId,
       items: [{ price: priceId }],
       payment_behavior: "default_incomplete",
+      expand: ["latest_invoice.payment_intent"],
     });
 
     console.log("subscription", subscription);
