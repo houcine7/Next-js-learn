@@ -67,7 +67,7 @@ const Subscribe = () => {
       confirmParams: {
         // Make sure to change this to your payment completion page
         expand: ["payment_method"],
-        return_url: `${window.location.origin}/Plans`,
+        return_url: `${window.location.origin}/success?customerid=${router.query.customerId}`,
         receipt_email: "houssainadl123@gmail.com",
         save_payment_method: true,
         payment_method_data: {

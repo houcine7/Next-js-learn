@@ -21,7 +21,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const result = await stripe.customers.update(customerId, {
         invoice_settings: { default_payment_method: paymentMethodId },
       });
-      console.log(result);
+      //console.log(result);
       res.status(200).json(result);
     } catch (error) {
       console.log(error);

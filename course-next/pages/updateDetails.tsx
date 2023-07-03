@@ -73,30 +73,39 @@ function CardForm() {
     console.log("[PaymentMethod]", payload.paymentMethod);
   };
 
+  const handelUpdate = async () => {
+    try {
+      const res = await axios.put("/api/stripe/customers", {
+        //
+        customerId: "customer",
+        paymentMethodId: "dummyPaymentMethod",
+      });
+      console.log(res.data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="card-input-wrapper">
-        <CardElement options={cardElementOptions} onChange={handleChange} />
+    <div className="grid grid-cols-2 grid-flow-row">
+      <div className="col-span-1 w-full h-full px-8">
+        <form onSubmit={handleSubmit}>
+          <div className="card-input-wrapper">
+            <CardElement options={cardElementOptions} onChange={handleChange} />
+          </div>
+          <button
+            className="bg-red-400 rounded-md py-2 px-3"
+            onClick={handelUpdate}
+          >
+            update customer card
+          </button>
+        </form>
       </div>
-      <button type="submit">Update Card</button>
 
-      <div>
-        <p>Card Number: {cardValues.card}</p>
-        <p>Card Expiry: {cardValues.cardExpiry}</p>
-        <p>Card CVC: {cardValues.cardCvc}</p>
+      <div className="col-span-1 w-full h-[80vh] bg-ft py-10 px-8">
+        <h1>You can update your card information here </h1>
       </div>
-
-      <style jsx>{`
-        .card-input-wrapper {
-          margin-bottom: 20px;
-        }
-
-        .card-input-wrapper :global(.CardElement) {
-          width: 100%;
-          display: block;
-        }
-      `}</style>
-    </form>
+    </div>
   );
 }
 
@@ -104,33 +113,12 @@ export default function Page() {
   const dummyPaymentMethod = "pm_1NPa4EKKnXpojv6BlPabIzb4";
   const customer = "cus_OBvVa4fat3LZsN";
 
-  const handelUpdate = async () => {
-    try {
-      const res = await axios.put("/api/stripe/customers", {
-        //
-        customerId: customer,
-        paymentMethodId: dummyPaymentMethod,
-      });
-      console.log(res.data);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
   return (
     <div className="checkout">
-      <h1>Update Card Details</h1>
+      <h1 className="px-8 mb-8 font-semiBold">Update Card Details</h1>
       <Elements stripe={stripePromise}>
         <CardForm />
       </Elements>
-
-      <div className="mt-10 flex justify-center">
-        <button
-          className="bg-red-400 rounded-md py-2 px-3"
-          onClick={handelUpdate}
-        >
-          update customer card
-        </button>
-      </div>
     </div>
   );
 }

@@ -70,14 +70,14 @@
   }
 }
 
-/*.Checkout {
+.Checkout {
   margin: 0 auto;
   max-width: 800px;
   box-sizing: border-box;
   padding: 0 5px;
 }
 
-form {
+.Checkout form {
   margin-bottom: 40px;
   padding-bottom: 40px;
   border-bottom: 3px solid #e6ebf1;
@@ -99,10 +99,6 @@ form {
     rgba(0, 0, 0, 0.0784314) 0px 1px 3px;
   -webkit-transition: all 150ms ease;
   transition: all 150ms ease;
-}*/
-
-.p-Tab {
-  display: none !important;
 }
 
 @layer base {
