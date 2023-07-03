@@ -20,7 +20,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     console.log("subscription", subscription);
 
     //return the customer id
-    return res.status(200).json({ id: subscription.id });
+    return res.status(200).json({
+      id: subscription.id,
+      secret: subscription.latest_invoice.payment_intent.client_secret,
+    });
   }
 }
 

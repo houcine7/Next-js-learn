@@ -1,20 +1,38 @@
 import axios from "axios";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
 
 const Plans = () => {
+  const router = useRouter();
+
   const handleClick = async () => {
     //make api request to create customer
+    try {
+      const response = await axios.post("/api/stripe/customers", {
+        email: "houcine789@example.com",
+      });
 
-    const response = await axios.post("/api/stripe/customers", {
-      email: "hello@example.com",
-    });
+      const subscription = await axios.post("/api/stripe/subscriptions", {
+        customerId: response.data.id,
+      });
 
-    const subscription = await axios.post("/api/stripe/subscriptions", {
-      customerId: response.data.id,
-    });
+      console.log(subscription);
 
-    console.log(subscription);
+      router.push(
+        {
+          pathname: "/subscribe",
+          query: {
+            subscriptionId: subscription.data.id,
+            secret: subscription.data.secret,
+            customerId: response.data.id,
+          },
+        },
+        "/subscribe"
+      );
+    } catch (error) {
+      console.log("error");
+    }
 
     //redirect to checkout page
   };

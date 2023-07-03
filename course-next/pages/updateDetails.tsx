@@ -5,6 +5,7 @@ import {
   Elements,
 } from "@stripe/react-stripe-js";
 import { StripeCardElementChangeEvent, loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
 import { useState } from "react";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISH_KEY!);
@@ -56,19 +57,20 @@ function CardForm() {
     }
 
     const cardElement = elements.getElement(CardElement);
-    // console.log(cardElement);
-    // create payment method
-    // const payload = await stripe.createPaymentMethod({
-    //   type: "card",
-    //   card: cardElement!,
-    //   billing_details: {
-    //     name: "John Doe",
-    //     email: "hello-world@gmail.com",
-    //   },
-    // });
+
+    console.log(cardElement);
+    //create payment method
+    const payload = await stripe.createPaymentMethod({
+      type: "card",
+      card: cardElement!,
+      billing_details: {
+        name: "houcine",
+        email: "houcine444@gmail.com",
+      },
+    });
 
     //handel product subscription
-    // console.log("[PaymentMethod]", payload);
+    console.log("[PaymentMethod]", payload.paymentMethod);
   };
 
   return (
@@ -99,12 +101,36 @@ function CardForm() {
 }
 
 export default function Page() {
+  const dummyPaymentMethod = "pm_1NPa4EKKnXpojv6BlPabIzb4";
+  const customer = "cus_OBvVa4fat3LZsN";
+
+  const handelUpdate = async () => {
+    try {
+      const res = await axios.put("/api/stripe/customers", {
+        //
+        customerId: customer,
+        paymentMethodId: dummyPaymentMethod,
+      });
+      console.log(res.data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
   return (
     <div className="checkout">
       <h1>Update Card Details</h1>
       <Elements stripe={stripePromise}>
         <CardForm />
       </Elements>
+
+      <div className="mt-10 flex justify-center">
+        <button
+          className="bg-red-400 rounded-md py-2 px-3"
+          onClick={handelUpdate}
+        >
+          update customer card
+        </button>
+      </div>
     </div>
   );
 }

@@ -11,6 +11,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     });
     //return the customer id
     return res.status(200).json({ id: customer.id });
+  } else if (req.method == "PUT") {
+    try {
+      const { paymentMethodId, customerId } = req.body;
+
+      await stripe.paymentMethods.attach(paymentMethodId, {
+        customer: customerId,
+      });
+      const result = await stripe.customers.update(customerId, {
+        invoice_settings: { default_payment_method: paymentMethodId },
+      });
+      console.log(result);
+      res.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
