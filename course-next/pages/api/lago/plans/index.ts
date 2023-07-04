@@ -2,7 +2,7 @@ import axios from "axios";
 import { Client, getLagoError } from "lago-javascript-client";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const lagoClient = Client(process.env.NEXT_PUBLIC_LAGO_KEY_API || "", {
+const lagoClient = Client("f26062e7-9a0a-4a7b-901f-73f53bc28d64", {
   baseUrl: "https://api-lago.dreeam.io/api/v1",
 });
 
@@ -11,17 +11,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method == "GET") {
     try {
-      console.log("called");
       const response = await axios.get(
-        "https://api-lago.dreeam.io/api/v1/billable_metrics",
+        "https://api-lago.dreeam.io/api/v1/plans",
         {
           headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_LAGO_KEY_API}`,
+            Authorization: "Bearer f26062e7-9a0a-4a7b-901f-73f53bc28d64",
           },
         }
       );
-      //console.log(response);
-
       return res.status(200).json(response.data);
     } catch (error) {
       console.log(error);
@@ -30,12 +27,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   } else if (req.method == "POST") {
     //
     try {
-      const { billableMetrics } = req.body;
-      console.log(billableMetrics);
+      const plan = req.body;
 
-      const { data } = await lagoClient.billableMetrics.createBillableMetric(
-        billableMetrics
-      );
+      console.log(plan.plan);
+
+      const { data } = await lagoClient.plans.createPlan({
+        plan: {
+          ...plan.plan,
+        },
+      });
       return res.status(200).json(data);
     } catch (err) {
       console.log(err);

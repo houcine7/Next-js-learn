@@ -13,7 +13,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       console.log("called");
       const response = await axios.get(
-        "https://api-lago.dreeam.io/api/v1/billable_metrics",
+        "https://api-lago.dreeam.io/api/v1/customers",
         {
           headers: {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_LAGO_KEY_API}`,
@@ -30,12 +30,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   } else if (req.method == "POST") {
     //
     try {
-      const { billableMetrics } = req.body;
-      console.log(billableMetrics);
+      const { customer } = req.body;
+      console.log(customer);
 
-      const { data } = await lagoClient.billableMetrics.createBillableMetric(
-        billableMetrics
-      );
+      const { data } = await lagoClient.customers.createCustomer(customer);
+
       return res.status(200).json(data);
     } catch (err) {
       console.log(err);
