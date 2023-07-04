@@ -80,7 +80,7 @@ const Index = () => {
       const response = await axios.post("/api/lago/customers", {
         customer: {
           customer: {
-            external_id: "cus_13Nkdbjf77",
+            external_id: "cus_13NkmmmmM44",
             address_line1: "Av Allal Al Farissi",
             address_line2: "",
             city: "France",
@@ -96,7 +96,6 @@ const Index = () => {
             billing_configuration: {
               invoice_grace_period: 3,
               payment_provider: "stripe",
-              provider_customer_id: "cus_12345",
               sync: true,
               sync_with_provider: true,
               document_locale: "fr",
