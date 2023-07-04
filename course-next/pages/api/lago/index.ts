@@ -30,7 +30,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   } else if (req.method == "POST") {
     //
     try {
-    } catch (err) {}
+      const { billableMetrics } = req.body;
+      console.log(billableMetrics);
+
+      const { data } = await lagoClient.billableMetrics.createBillableMetric(
+        billableMetrics
+      );
+      return res.status(200).json(data);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
   }
 }
 
