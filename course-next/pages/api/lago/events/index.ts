@@ -12,8 +12,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const respone = await lagoClient.events.createEvent({
         event: {
-          transaction_id: "tras_5eb02857-a71e55dd5d55d5d5d5",
-          external_customer_id: "cus_13Nkdbjf77",
+          transaction_id: "tras_123456abc-edit",
+          external_customer_id: "cus_13NkmmmmM44",
           external_subscription_id: "subscription_Lmfkjnfdjffeiu",
           code: "test_caller_test_ft",
           timestamp: Math.floor(Date.now() / 1000),

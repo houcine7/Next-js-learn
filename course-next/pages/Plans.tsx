@@ -56,6 +56,23 @@ const Plans = () => {
           </button>
         </div>
       </div>
+
+      <div className="card rounded border border-gray-500">
+        <div className=" flex flex-col justify-center items-center">
+          <Image
+            src="/images/payment.png"
+            alt="card-img"
+            width={95}
+            height={100}
+          />
+          <button
+            className="bg-red-500 rounded text-white px-4 py-1"
+            onClick={handleClick}
+          >
+            GIT LAGO PLAN
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
