@@ -25,6 +25,8 @@ const cardElementOptions = {
   },
 };
 
+const API_URL = "http://localhost:3000/api";
+
 function CardForm() {
   const stripe = useStripe();
   const elements = useElements();
@@ -63,8 +65,16 @@ function CardForm() {
         card: cardElement!,
       });
 
-      // console.log("[PaymentMethod]", paymentMethod?.id);
+      console.log("[PaymentMethod]", paymentMethod?.id);
       if (paymentMethod) {
+        const { data } = await axios.post(
+          API_URL + "/stripe/customers/paymentMethod",
+          {
+            customerId: "cus_OCyq9QOxRkSppF",
+            paymentMethodId: paymentMethod.id,
+          }
+        );
+        console.log(data);
       }
     } catch (error) {
       console.log("error", error);
