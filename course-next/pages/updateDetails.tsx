@@ -48,39 +48,24 @@ function CardForm() {
     });
   };
 
-  const handleSubmit = async (event: any) => {
-    event.preventDefault();
+  const handelUpdate = async (e: any) => {
+    e.preventDefault();
 
     if (!stripe || !elements) {
       // Handle missing stripe or elements objects
       return;
     }
-
     const cardElement = elements.getElement(CardElement);
 
-    console.log(cardElement);
-    //create payment method
-    const payload = await stripe.createPaymentMethod({
-      type: "card",
-      card: cardElement!,
-      billing_details: {
-        name: "houcine",
-        email: "houcine444@gmail.com",
-      },
-    });
-
-    //handel product subscription
-    console.log("[PaymentMethod]", payload.paymentMethod);
-  };
-
-  const handelUpdate = async () => {
     try {
-      const res = await axios.put("/api/stripe/customers", {
-        //
-        customerId: "customer",
-        paymentMethodId: "dummyPaymentMethod",
+      const { paymentMethod } = await stripe.createPaymentMethod({
+        type: "card",
+        card: cardElement!,
       });
-      console.log(res.data);
+
+      // console.log("[PaymentMethod]", paymentMethod?.id);
+      if (paymentMethod) {
+      }
     } catch (error) {
       console.log("error", error);
     }
@@ -89,7 +74,7 @@ function CardForm() {
   return (
     <div className="grid grid-cols-2 grid-flow-row">
       <div className="col-span-1 w-full h-full px-8">
-        <form onSubmit={handleSubmit}>
+        <form>
           <div className="card-input-wrapper">
             <CardElement options={cardElementOptions} onChange={handleChange} />
           </div>

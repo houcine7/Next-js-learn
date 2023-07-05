@@ -6,32 +6,6 @@ import axios from "axios";
 import { countReset } from "console";
 import { SourceTextModule } from "vm";
 
-const cust = {
-  externalId: "1234-5678-9098-7654-3210",
-  addressLine1: "5230 Penfield Ave",
-  city: "Woodland Hills",
-  currency: "EUR",
-  country: "US",
-  email: "test@example.com",
-  legalName: "Coleman-Blair",
-  name: "Test Name",
-  phone: "1-171-883-3711 x245",
-  billingConfiguration: {
-    paymentProvider:
-      "stripe" as BillingConfigurationCustomer["paymentProvider"],
-    sync: true,
-    syncWithProvider: true,
-  },
-  metadata: [
-    {
-      lagoId: "1234",
-      key: "foo",
-      value: "bar",
-      displayInInvoice: true,
-    },
-  ],
-};
-
 type Customer = {
   externalId: string;
   addressLine1: string;
@@ -56,8 +30,8 @@ const API_URL = "http://localhost:3000/api";
 const CreateCustomer = () => {
   const [currencies, setCurrencies] = useState<string[]>();
   const [countries, setCountries] = useState<any>();
-
   const [customer, setCustomer] = useState<Customer>(INITIAL_CUSTOMER);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     //
@@ -84,23 +58,14 @@ const CreateCustomer = () => {
         ...prev,
         [name]: value,
       }));
-    console.log(customer);
+    //console.log(customer);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e: any) => {
     //
+    e.preventDefault();
     const { externalId, addressLine1, country, currency, name, email, phone } =
       customer;
-
-    console.log(
-      externalId,
-      addressLine1,
-      country,
-      currency,
-      name,
-      email,
-      phone
-    );
 
     if (
       externalId != "" &&
@@ -112,6 +77,38 @@ const CreateCustomer = () => {
       phone != ""
     ) {
       console.log("submit");
+
+      try {
+        const response = await axios.post(API_URL + "/lago/customers", {
+          customerObject: {
+            external_id: externalId,
+            address_line1: addressLine1,
+            currency,
+            country,
+            email,
+            legal_name: name,
+            name,
+            phone,
+            billing_configuration: {
+              payment_provider:
+                "stripe" as BillingConfigurationCustomer["paymentProvider"],
+              sync: true,
+              sync_with_provider: true,
+            },
+            // metadata: [
+            //   {
+            //     lagoId: "1234",
+            //     key: "foo",
+            //     value: "bar",
+            //     displayInInvoice: true,
+            //   },
+            // ],
+          },
+        });
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       console.log("error");
     }
@@ -252,13 +249,14 @@ const CreateCustomer = () => {
                 </div>
 
                 <div className="relative">
-                  <a
+                  <button
+                    disabled={isLoading}
                     className="w-full inline-block pr-4 py-3 cursor-pointer pl-4 text-xl font-medium text-center text-white bg-ft
                   rounded-lg transition duration-200 hover:bg-gray-900 ease"
                     onClick={handleSubmit}
                   >
-                    Submit
-                  </a>
+                    {isLoading ? "Loading..." : "Submit payment details"}
+                  </button>
                 </div>
               </div>
             </div>

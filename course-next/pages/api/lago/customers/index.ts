@@ -30,10 +30,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   } else if (req.method == "POST") {
     //
     try {
-      const { customer } = req.body;
-      console.log(customer);
+      const { customerObject } = req.body;
+      console.log(customerObject);
 
-      const { data } = await lagoClient.customers.createCustomer(customer);
+      const { data } = await lagoClient.customers.createCustomer({
+        customer: customerObject,
+      });
 
       return res.status(200).json(data);
     } catch (err) {
