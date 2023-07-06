@@ -11,7 +11,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method == "GET") {
     try {
-      console.log("called");
       const response = await axios.get(
         "https://api-lago.dreeam.io/api/v1/subscriptions",
         {

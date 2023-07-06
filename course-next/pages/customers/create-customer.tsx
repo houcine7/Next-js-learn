@@ -113,6 +113,7 @@ const CreateCustomer = () => {
               pathname: "/customers/payment_information",
               query: {
                 provider_customer_id,
+                external_id,
               },
             },
             "/customers/payment_information"

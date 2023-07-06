@@ -70,6 +70,16 @@ function CardForm() {
         if (data) {
           // payment method added successfully
           setIsLoading(false);
+          // redirect to the final subscription page
+          router.push(
+            {
+              pathname: `projects/${router.query.external_id}/subscribe`,
+              query: {
+                external_id: router.query.external_id,
+              },
+            },
+            `projects/${router.query.external_id}/subscribe`
+          );
         }
       }
     } catch (error) {

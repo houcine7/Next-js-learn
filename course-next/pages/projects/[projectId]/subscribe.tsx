@@ -8,16 +8,26 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 
 const API_URL_LAGO_CUSTOMERS = "http://localhost:3000/api/lago/customers";
 
 const Page = () => {
   const router = useRouter();
   const [customerExists, setCustomerExists] = useState(false);
-
+  const [isDisabled, setIsDisabled] = useState(true);
   const { projectId } = router.query;
-  console.log(projectId);
+
+  // check if the user is indeed a cosumer an have a payment method else redirect to create customer page
+  useEffect(() => {
+    // code
+    const checkCustomer = async () => {
+      try {
+      } catch (err) {}
+    };
+
+    checkCustomer();
+  }, [projectId]);
 
   const handleClick = async () => {
     //make api request to create customer
@@ -50,52 +60,30 @@ const Page = () => {
     //redirect to checkout page
   };
 
-  const handelContinue = async () => {
-    //
-
-    const response = await axios.get(API_URL_LAGO_CUSTOMERS + `/${projectId}`);
-    console.log(response);
-
-    if (response.status != 200) {
-      setCustomerExists(true);
-    }
-
-    if (!customerExists) {
-      router.push(
-        {
-          pathname: "/customers/create-customer",
-          query: {
-            external_id: projectId && projectId,
-          },
-        },
-        "/customers/create-customer"
-      );
-    }
-  };
-
   return (
     // cards for pro plan and basic plan
-    <div className="flex justify-center gap-10 flex-wrap mt-52">
-      <div className="card rounded border border-gray-500">
-        <div className=" flex flex-col justify-center items-center">
-          <Image
-            src="/images/payment.png"
-            alt="card-img"
-            width={95}
-            height={100}
-          />
-          <AlertDailogBTN
-            title="Do you want to continue?"
-            desc={
-              "To be able to upgrade your project kindly contnue to create your customer account and then confirm payments"
-            }
-            mainBtnText="Upgrade your plan"
-            btnContinue="Continue"
-            btnCancel="Cancel"
-            handleCancel={() => {}}
-            handleContinue={handelContinue}
-          />
-        </div>
+    <div className="flex justify-center  flex-wrap my-24 max-w-4xl mx-auto">
+      <div className="flex flex-col items-center gap-8">
+        <Image
+          src="/images/sub.png"
+          className="btn-"
+          alt="image"
+          width={400}
+          height={400}
+        />
+
+        <button
+          disabled={isDisabled}
+          className="bg-ft  text-white font-bold text-sm duration-700 transition ease-in-out hover:bg-gray-900 rounded-md py-3 px-3"
+        >
+          Upgrade your project Now
+        </button>
+        <p className="text-center tracking-wider text-base font-normal text-gray-900 ">
+          By clicking you will upgrade your project to pro plan and use our
+          exclusive features and you will be charged each mounth with
+          subscription fees, Keep in minde that you can always cancel
+          subsription or change you payment methods
+        </p>
       </div>
     </div>
   );
