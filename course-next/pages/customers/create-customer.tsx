@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import SVGstyle from "@/public/images/points.svg";
 import { BillingConfigurationCustomer } from "lago-javascript-client";
 import axios from "axios";
-import { countReset } from "console";
-import { SourceTextModule } from "vm";
+
 import { useRouter } from "next/router";
 
 type Customer = {
@@ -18,7 +16,7 @@ type Customer = {
 };
 
 const INITIAL_CUSTOMER = {
-  externalId: "prj_kljnlrthiufd6g541dfs5hb",
+  externalId: "",
   addressLine1: "",
   country: "",
   currency: "",
@@ -35,8 +33,6 @@ const CreateCustomer = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const router = useRouter();
-
-  console.log("PROJECT_ID", router.query.external_id);
 
   useEffect(() => {
     //
@@ -70,10 +66,14 @@ const CreateCustomer = () => {
     //
     setIsLoading(true);
     e.preventDefault();
-    const { externalId, addressLine1, country, currency, name, email, phone } =
+    let { externalId, addressLine1, country, currency, name, email, phone } =
       customer;
 
+    externalId = router.query.external_id as string;
+    console.log(externalId);
+
     if (
+      externalId &&
       externalId != "" &&
       addressLine1?.length > 3 &&
       country != "" &&
@@ -107,7 +107,7 @@ const CreateCustomer = () => {
         if (response.status == 201) {
           const data = response.data;
           const { external_id, provider_customer_id, payment_provider } = data;
-
+          console.log(data);
           router.push(
             {
               pathname: "/customers/payment_information",
@@ -118,6 +118,7 @@ const CreateCustomer = () => {
             },
             "/customers/payment_information"
           );
+          setIsLoading(false);
         }
       } catch (error) {
         setIsLoading(false);
@@ -170,6 +171,7 @@ const CreateCustomer = () => {
                     className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"
+                    required
                     onChange={handleChange}
                   />
                 </div>
@@ -181,6 +183,7 @@ const CreateCustomer = () => {
                     placeholder="example@ex.com"
                     type="text"
                     name="email"
+                    required
                     className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full p-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"
@@ -198,6 +201,7 @@ const CreateCustomer = () => {
                     placeholder="+33 6646 54654"
                     type="text"
                     name="phone"
+                    required
                     className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full p-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"
@@ -215,6 +219,7 @@ const CreateCustomer = () => {
                         className="border w-full placeholder-gray-400 focus:outline-none focus:border-black p-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white  border-gray-300 rounded-md"
                         name="country"
                         onChange={handleChange}
+                        required
                       >
                         {countries &&
                           Object.keys(countries).map((key, index) => (
@@ -233,6 +238,7 @@ const CreateCustomer = () => {
                         className=" border w-full placeholder-gray-400 focus:outline-none focus:border-black p-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md "
                         name="currency"
                         onChange={handleChange}
+                        required
                       >
                         {currencies &&
                           currencies.map((curr) => (
@@ -260,6 +266,7 @@ const CreateCustomer = () => {
                   focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"
                     onChange={handleChange}
+                    required
                   />
                 </div>
 

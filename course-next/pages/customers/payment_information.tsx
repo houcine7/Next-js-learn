@@ -32,13 +32,14 @@ const API_URL = "http://localhost:3000/api";
 function CardForm() {
   const stripe = useStripe();
   const elements = useElements();
-  const [provideCustomerId, setProviderCustomerId] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  if (router.query.provider_customer_id) {
-    setProviderCustomerId(router.query.provider_customer_id as string);
-  }
+  const [provideCustomerId, setProviderCustomerId] = useState<string>(
+    router.query.provider_customer_id as string
+  );
+
+  console.log(provideCustomerId);
 
   const handelUpdate = async (e: any) => {
     e.preventDefault();
@@ -73,12 +74,13 @@ function CardForm() {
           // redirect to the final subscription page
           router.push(
             {
-              pathname: `projects/${router.query.external_id}/subscribe`,
+              pathname: `/projects/${router.query.external_id}/subscribe`,
               query: {
                 external_id: router.query.external_id,
+                provider_customer_id: provideCustomerId,
               },
             },
-            `projects/${router.query.external_id}/subscribe`
+            `/projects/${router.query.external_id}/subscribe`
           );
         }
       }

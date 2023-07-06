@@ -8,6 +8,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method == "GET") {
     try {
       const { customerId } = req.query;
+      console.log("customerId");
 
       // create a payment method for a customer
       if (customerId) {
@@ -15,6 +16,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           customer: customerId as string,
           type: "card",
         });
+        if (paymentMethods.data.length == 0)
+          return res.status(404).json({ error: "No payment method found" });
+
         return res.status(200).json(paymentMethods.data[0].id);
       }
     } catch (error) {

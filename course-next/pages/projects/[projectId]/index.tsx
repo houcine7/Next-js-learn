@@ -17,28 +17,32 @@ const Page = () => {
   const [customerExists, setCustomerExists] = useState(false);
 
   const { projectId } = router.query;
-  console.log(projectId);
+  // console.log(projectId);
 
   const handelContinue = async () => {
     //
 
-    const response = await axios.get(API_URL_LAGO_CUSTOMERS + `/${projectId}`);
-    console.log(response);
-
-    if (response.status != 200) {
-      setCustomerExists(true);
-    }
-
-    if (!customerExists) {
-      router.push(
-        {
-          pathname: "/customers/create-customer",
-          query: {
-            external_id: projectId && projectId,
-          },
-        },
-        "/customers/create-customer"
+    try {
+      const response = await axios.get(
+        API_URL_LAGO_CUSTOMERS + `/${projectId}`
       );
+      console.log(response);
+
+      if ((response.status = 200)) {
+        setCustomerExists(true);
+      }
+    } catch (error) {
+      if (!customerExists) {
+        router.push(
+          {
+            pathname: "/customers/create-customer",
+            query: {
+              external_id: projectId && projectId,
+            },
+          },
+          "/customers/create-customer"
+        );
+      }
     }
   };
 

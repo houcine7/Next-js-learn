@@ -32,21 +32,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       console.log(error);
       return res.status(500).json({ error: "Something went wrong !!" });
     }
-  } else if (req.method == "POST") {
-    //
-    try {
-      const { customerObject } = req.body;
-      console.log(customerObject);
-
-      const { data } = await lagoClient.customers.createCustomer({
-        customer: customerObject,
-      });
-
-      return res.status(200).json(data);
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({ error: "Something went wrong !!" });
-    }
   }
 }
 
