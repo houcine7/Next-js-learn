@@ -11,15 +11,23 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method == "GET") {
     try {
-      const response = await axios.get(
-        "https://api-lago.dreeam.io/api/v1/customers",
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_LAGO_KEY_API}`,
-          },
-        }
-      );
-      return res.status(200).json(response.data);
+      const { external_id } = req.query;
+      console.log(external_id);
+
+      if (external_id) {
+        const response = await axios.get(
+          `https://api-lago.dreeam.io/api/v1/customers/${external_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_LAGO_KEY_API}`,
+            },
+          }
+        );
+
+        console.log(response.data);
+
+        return res.status(200).json(response.data);
+      }
     } catch (error) {
       console.log(error);
       return res.status(500).json({ error: "Something went wrong !!" });
@@ -33,13 +41,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const { data } = await lagoClient.customers.createCustomer({
         customer: customerObject,
       });
-      const customer = data.customer;
-      return res.status(201).json({
-        external_id: customer.external_id,
-        provider_customer_id:
-          customer.billing_configuration?.provider_customer_id,
-        payment_provider: customer.billing_configuration?.payment_provider,
-      });
+
+      return res.status(200).json(data);
     } catch (err) {
       console.log(err);
       return res.status(500).json({ error: "Something went wrong !!" });

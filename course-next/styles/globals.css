@@ -80,18 +80,18 @@
 .Checkout form {
   margin-bottom: 40px;
   padding-bottom: 40px;
-  border-bottom: 3px solid #e6ebf1;
 }
 
 .StripeElement {
   display: block;
   margin: 10px 0 20px 0;
   max-width: 600px;
-  padding: 10px 14px;
+  padding: 16px 20px;
   box-shadow: rgba(50, 50, 93, 0.14902) 0px 1px 3px,
     rgba(0, 0, 0, 0.0196078) 0px 1px 0px;
   border-radius: 4px;
   background: white;
+  border: 1px solid rgba(13, 12, 13, 0.39);
 }
 
 .StripeElement--focus {

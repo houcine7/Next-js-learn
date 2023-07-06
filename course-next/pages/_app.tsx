@@ -7,7 +7,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <React.StrictMode>
-      <NavBar />
       <Component {...pageProps} />
     </React.StrictMode>
   );

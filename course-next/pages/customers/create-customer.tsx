@@ -5,6 +5,7 @@ import { BillingConfigurationCustomer } from "lago-javascript-client";
 import axios from "axios";
 import { countReset } from "console";
 import { SourceTextModule } from "vm";
+import { useRouter } from "next/router";
 
 type Customer = {
   externalId: string;
@@ -32,6 +33,10 @@ const CreateCustomer = () => {
   const [countries, setCountries] = useState<any>();
   const [customer, setCustomer] = useState<Customer>(INITIAL_CUSTOMER);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const router = useRouter();
+
+  console.log("PROJECT_ID", router.query.external_id);
 
   useEffect(() => {
     //
@@ -63,6 +68,7 @@ const CreateCustomer = () => {
 
   const handleSubmit = async (e: any) => {
     //
+    setIsLoading(true);
     e.preventDefault();
     const { externalId, addressLine1, country, currency, name, email, phone } =
       customer;
@@ -95,21 +101,29 @@ const CreateCustomer = () => {
               sync: true,
               sync_with_provider: true,
             },
-            // metadata: [
-            //   {
-            //     lagoId: "1234",
-            //     key: "foo",
-            //     value: "bar",
-            //     displayInInvoice: true,
-            //   },
-            // ],
           },
         });
-        console.log(response.data);
+
+        if (response.status == 201) {
+          const data = response.data;
+          const { external_id, provider_customer_id, payment_provider } = data;
+
+          router.push(
+            {
+              pathname: "/customers/payment_information",
+              query: {
+                provider_customer_id,
+              },
+            },
+            "/customers/payment_information"
+          );
+        }
       } catch (error) {
+        setIsLoading(false);
         console.log(error);
       }
     } else {
+      setIsLoading(false);
       console.log("error");
     }
   };
