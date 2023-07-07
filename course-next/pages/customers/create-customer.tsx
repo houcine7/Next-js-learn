@@ -154,7 +154,7 @@ const CreateCustomer = () => {
             relative z-10"
             >
               <p className="w-full text-2xl font-medium text-center leading-snug font-serif">
-                Sign up for an account
+                Sign up for customer account
               </p>
               <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-5">
                 <div className="relative">
