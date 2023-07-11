@@ -90,15 +90,15 @@ function CardForm() {
   };
 
   return (
-    <div className="grid grid-cols-2 grid-flow-row h-full items-center">
+    <div className="grid grid-cols-2 grid-flow-row h-full items-center flex-wrap">
       <div className="col-span-1 w-full px-8">
         <form>
           <div className="card-input-wrapper">
-            <p className="font-semibold pl-2 text-gray-900 text-base text-start">
+            <p className="font-semibold pl-2 text-gray-900 text-base text-start mb-4 ">
               Credit Card Details
             </p>
             {provideCustomerId == "" ? (
-              <p className="my-4 font-semibold pl-2 text-gray-900 text-base text-start">
+              <p className="mb-4 font-semibold pl-2 text-gray-900 text-base text-start">
                 Loading ...
               </p>
             ) : (
@@ -126,7 +126,7 @@ function CardForm() {
           height={500}
         />
 
-        <p className="text-lg font-normal tracking-tighter text-white text-center">
+        <p className="text-xl font-normal tracking-tighter text-white text-justify">
           By adding payment information you won{"'"}t get charged for any
           invoices until you complete subscription to the our pro plan
         </p>
