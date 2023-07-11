@@ -1,4 +1,5 @@
 import React, { ChangeEvent, InputHTMLAttributes, useState } from "react";
+import CustomSelect from "./CustomSelect";
 
 type MeetupFormProps = {
   handelSubmit: (data: any) => void;
@@ -83,6 +84,7 @@ const AddMeetupForm = (props: MeetupFormProps) => {
             className="w-full rounded-lg outline-none h-12 px-2 focus:border-blue-400 focus:border-2"
           />
         </div>
+
         <button
           className="rounded-md px-2 py-2 bg-blue-700 font-bold  mt-2 float-right"
           onClick={async () => {
